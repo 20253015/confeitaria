@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confeitaria Brilho Doce • Bolos & Doces Artesanais</title>
+  <meta name="description" content="Confeitaria artesanal com bolos personalizados, docinhos gourmet e sobremesas sob encomenda. Faça seu pedido pelo WhatsApp." />
+  <meta name="theme-color" content="#ff7aa2" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff7fb;
+      --paper:#ffffff;
+      --ink:#2b2031;
+      --rose:#ff7aa2;
+      --rose-2:#ff9fbd;
+      --violet:#8a6eff;
+      --mint:#5de3c1;
+      --gold:#ffcf6b;
+      --shadow:0 8px 28px rgba(43,32,49,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+      background:linear-gradient(180deg,var(--bg),#fff);
+      color:var(--ink);
+      line-height:1.55;
+    }
+    a{color:var(--rose);text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1120px,92vw);margin-inline:auto}
+
+    /* Topbar */
+    .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-bottom:1px solid #ffe2ee}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:42px;height:42px;border-radius:50%;background:
+      radial-gradient(circle at 30% 30%, var(--gold), transparent 40%),
+      radial-gradient(circle at 70% 30%, var(--rose-2), transparent 42%),
+      radial-gradient(circle at 50% 70%, var(--mint), transparent 45%);
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      position:relative}
+    .logo:after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px #fff6}
+    .brand h1{font-family:'Playfair Display',serif;font-size:20px;margin:0;letter-spacing:.5px}
+    .nav a.btn{padding:10px 16px;border-radius:999px;border:2px solid var(--rose);font-weight:700}
+    .nav a.btn:hover{background:var(--rose);color:#fff}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden}
+    .hero .container{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;padding:56px 0}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--rose);padding:8px 12px;border-radius:999px;font-size:12px;color:#a33}
+    .title{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,56px);line-height:1.1;margin:10px 0}
+    .subtitle{font-size:16px;color:#5b4f62;margin-bottom:18px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{background:var(--rose);color:#fff;border:none;border-radius:999px;padding:12px 18px;font-weight:700;box-shadow:var(--shadow);cursor:pointer}
+    .btn.alt{background:#fff;color:var(--rose);border:2px solid var(--rose)}
+    .btn:hover{transform:translateY(-1px)}
+    .hero-art{position:relative;aspect-ratio:1/1;border-radius:var(--radius);background:conic-gradient(from 180deg at 50% 50%, #ffe6f0, #fff, #e8fffa, #f0ecff, #ffe6f0);box-shadow:var(--shadow)}
+    .cake{position:absolute;inset:8% 8% 8% 8%;border-radius:16px;background:
+      radial-gradient(circle at 50% 10%, #fff, #ffdbe8 60%),
+      linear-gradient(#ff9fbd, #ff7aa2);
+      box-shadow:inset 0 -6px 0 #ff4f87}
+    .candle{position:absolute;left:50%;top:16%;transform:translateX(-50%);width:14px;height:80px;background:#fff;border-radius:6px;box-shadow:0 0 0 3px #ff9fbd}
+    .flame{position:absolute;left:50%;top:-18px;transform:translateX(-50%);width:18px;height:28px;border-radius:999px;background:radial-gradient(circle at 40% 30%,#fff, #ffda6b 60%, #ff9f00);filter:drop-shadow(0 8px 12px rgba(255,159,0,.45));animation:wiggle 2.2s ease-in-out infinite}
+    @keyframes wiggle{0%,100%{transform:translateX(-50%) rotate(-3deg)}50%{transform:translateX(-50%) rotate(3deg)}}
+
+    /* Sprinkles */
+    .sprinkles{pointer-events:none;position:absolute;inset:0}
+    .sprinkles span{position:absolute;width:6px;height:16px;border-radius:3px;opacity:.55;transform:rotate(var(--r)) translateY(var(--y));background:var(--c)}
+
+    /* Sections */
+    section{padding:56px 0}
+    .card{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+    .section-title{font-family:'Playfair Display',serif;font-size:32px;margin:0 0 16px}
+
+    /* Menu Grid */
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .chip{border:1px solid #ffd0e0;padding:8px 12px;border-radius:999px;background:#fff;cursor:pointer}
+    .chip.active{background:var(--rose);color:#fff;border-color:var(--rose)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .item{position:relative;overflow:hidden;border-radius:18px;background:#fff}
+    .item .pic{aspect-ratio:4/3;background:linear-gradient(135deg,#ffe1ec,#fff)}
+    .item .info{padding:12px 14px}
+    .tag{font-size:12px;color:#a05;border:1px dashed #ffc2d6;border-radius:999px;padding:2px 8px}
+    .price{font-weight:800;color:#a0204a}
+
+    /* Builder */
+    .builder{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .builder .option{display:grid;gap:8px}
+    .summary{display:flex;align-items:center;justify-content:space-between;background:#fff7fb;border-radius:16px;padding:12px 16px;border:1px solid #ffd7e8}
+
+    /* Testimonials */
+    .slider{position:relative;overflow:hidden}
+    .slides{display:flex;transition:transform .5s ease}
+    .slide{min-width:100%}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery a{display:block;border-radius:14px;overflow:hidden}
+
+    /* Footer */
+    footer{background:#1b1223;color:#f9eaf2}
+    .footgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px}
+    .mini{font-size:14px;color:#e8d7df}
+
+    /* Responsive */
+    @media (max-width:920px){
+      .hero .container{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .gallery{grid-template-columns:repeat(3,1fr)}
+      .builder{grid-template-columns:1fr}
+      .footgrid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:620px){
+      .grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .footgrid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="topbar">
+    <nav class="container nav" aria-label="Navegação principal">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1 aria-label="Confeitaria Brilho Doce">Brilho Doce</h1>
+      </div>
+      <div class="actions">
+        <a class="btn alt" href="#menu">Cardápio</a>
+        <a class="btn" id="whatsTop" target="_blank" rel="noopener">Pedir no WhatsApp</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div>
+        <span class="badge">✨ Artesanal • Ingredientes selecionados</span>
+        <h2 class="title">Bolos e Doces <span style="color:var(--rose)">personalizados</span> para seus momentos</h2>
+        <p class="subtitle">Encomendas sob medida para aniversários, casamentos e eventos corporativos. Escolha sabores, recheios e decorações — nós entregamos com carinho.</p>
+        <div class="cta">
+          <a class="btn" href="#builder">Monte seu bolo</a>
+          <a class="btn alt" href="#menu">Ver docinhos gourmet</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="cake">
+          <div class="candle"><div class="flame" aria-hidden="true"></div></div>
+        </div>
+        <div class="sprinkles" aria-hidden="true" id="sprinkles"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="container">
+      <div class="card">
+        <h3 class="section-title">Sobre nós</h3>
+        <p>Na <strong>Confeitaria Brilho Doce</strong>, cada receita é feita à mão, com ingredientes frescos e foco no sabor. Personalizamos bolos artísticos, docinhos gourmet e sobremesas para todos os tamanhos de evento — do café da tarde a grandes celebrações.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU / CARDÁPIO -->
+  <section id="menu">
+    <div class="container">
+      <h3 class="section-title">Cardápio</h3>
+      <div class="filters" role="tablist" aria-label="Filtros do cardápio">
+        <button class="chip active" data-filter="all" role="tab">Tudo</button>
+        <button class="chip" data-filter="bolos" role="tab">Bolos</button>
+        <button class="chip" data-filter="doces" role="tab">Docinhos</button>
+        <button class="chip" data-filter="sobremesas" role="tab">Sobremesas</button>
+      </div>
+      <div class="grid" id="menuGrid">
+        <!-- Itens de exemplo. Substitua as imagens de fundo se desejar -->
+        <article class="item" data-cat="bolos">
+          <div class="pic" style="background-image:linear-gradient(135deg,#ffd1e3,#fff),url('');background-blend-mode:multiply"></div>
+          <div class="info">
+            <div class="tag">Bolo Red Velvet</div>
+            <h4>Red Velvet com cream cheese</h4>
+            <p>Camadas úmidas com recheio suave de cream cheese.</p>
+            <div class="price">R$ 89,90/kg</div>
+          </div>
+        </article>
+        <article class="item" data-cat="doces">
+          <div class="pic" style="background:linear-gradient(135deg,#fff0f7,#fff)"></div>
+          <div class="info">
+            <div class="tag">Brigadeiro Gourmet</div>
+            <h4>Ao leite • 50 un.</h4>
+            <p>Chocolate nobre e finalização com granulé belga.</p>
+            <div class="price">R$ 79,90</div>
+          </div>
+        </article>
+        <article class="item" data-cat="sobremesas">
+          <div class="pic" style="background:linear-gradient(135deg,#fff7dc,#fff)"></div>
+          <div class="info">
+            <div class="tag">Cheesecake</div>
+            <h4>Frutas vermelhas</h4>
+            <p>Base crocante com calda artesanal.</p>
+            <div class="price">R$ 119,90</div>
+          </div>
+        </article>
+        <article class="item" data-cat="doces">
+          <div class="pic" style="background:linear-gradient(135deg,#e6fffa,#fff)"></div>
+          <div class="info">
+            <div class="tag">Beijinho</div>
+            <h4>Cocco • 50 un.</h4>
+            <p>Toque de cravo e coco fresco.</p>
+            <div class="price">R$ 69,90</div>
+          </div>
+        </article>
+        <article class="item" data-cat="bolos">
+          <div class="pic" style="background:linear-gradient(135deg,#efe5ff,#fff)"></div>
+          <div class="info">
+            <div class="tag">Chocolate</div>
+            <h4>Três chocolates</h4>
+            <p>Mousse ao leite, meio amargo e branco.</p>
+            <div class="price">R$ 94,90/kg</div>
+          </div>
+        </article>
+        <article class="item" data-cat="sobremesas">
+          <div class="pic" style="background:linear-gradient(135deg,#ffeae1,#fff)"></div>
+          <div class="info">
+            <div class="tag">Pavê</div>
+            <h4>Amendoim</h4>
+            <p>Clássico cremoso para toda família.</p>
+            <div class="price">R$ 69,90</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section id="builder">
+    <div class="container">
+      <h3 class="section-title">Monte seu bolo</h3>
+      <div class="card builder" aria-label="Construtor de bolo">
+        <div>
+          <div class="option">
+            <label for="tamanho">Tamanho</label>
+            <select id="tamanho">
+              <option value="1" data-preco="79.9">1 kg (até 10 fatias)</option>
+              <option value="1.5" data-preco="109.9">1,5 kg (até 15 fatias)</option>
+              <option value="2" data-preco="139.9">2 kg (até 20 fatias)</option>
+            </select>
+          </div>
+          <div class="option">
+            <label for="massa">Massa</label>
+            <select id="massa">
+              <option>Baunilha</option>
+              <option>Chocolate</option>
+              <option>Red Velvet</option>
+              <option>Cenoura</option>
+            </select>
+          </div>
+          <div class="option">
+            <label for="recheio">Recheio</label>
+            <select id="recheio">
+              <option>Brigadeiro</option>
+              <option>Doce de leite</option>
+              <option>Frutas vermelhas</option>
+              <option>Chocolate branco</option>
+            </select>
+          </div>
+          <div class="option">
+            <label><input type="checkbox" id="cobertura" data-extra="14.9"> Cobertura extra + R$ 14,90</label>
+            <label><input type="checkbox" id="topper" data-extra="19.9"> Topper personalizado + R$ 19,90</label>
+          </div>
+        </div>
+        <div class="card" style="display:grid;gap:12px">
+          <h4 style="margin:0">Resumo do pedido</h4>
+          <div class="summary">
+            <div>
+              <div id="resumo" class="mini">—</div>
+              <strong>Total: <span id="total">R$ 0,00</span></strong>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="btn" id="whatsPedido">Pedir no WhatsApp</button>
+              <button class="btn alt" id="copiarResumo">Copiar resumo</button>
+            </div>
+          </div>
+          <small class="mini">* Valores estimados. Confirmação e disponibilidade pelo WhatsApp.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section aria-label="Depoimentos">
+    <div class="container card">
+      <h3 class="section-title">Amor em cada fatia 💗</h3>
+      <div class="slider" id="slider">
+        <div class="slides">
+          <figure class="slide">
+            <blockquote>“O bolo do aniversário da minha filha ficou perfeito! Sabor incrível e decoração impecável.”</blockquote>
+            <figcaption class="mini">— Carla S.</figcaption>
+          </figure>
+          <figure class="slide">
+            <blockquote>“Os docinhos gourmet fizeram sucesso no escritório. Entrega pontual e atendimento excelente.”</blockquote>
+            <figcaption class="mini">— Rodrigo P.</figcaption>
+          </figure>
+          <figure class="slide">
+            <blockquote>“Cheesecake dos deuses! Já virou tradição nas nossas reuniões de família.”</blockquote>
+            <figcaption class="mini">— Dona Lurdes</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section aria-label="Galeria de criações">
+    <div class="container">
+      <h3 class="section-title">Galeria</h3>
+      <div class="gallery">
+        <a href="#" class="pic" style="background:linear-gradient(135deg,#ffe8f2,#fff)" title="Bolo florido"></a>
+        <a href="#" class="pic" style="background:linear-gradient(135deg,#e9fffb,#fff)" title="Bolo drip"></a>
+        <a href="#" class="pic" style="background:linear-gradient(135deg,#f1ecff,#fff)" title="Docinhos"></a>
+        <a href="#" class="pic" style="background:linear-gradient(135deg,#fff7e6,#fff)" title="Cheesecake"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO / MAPA -->
+  <section id="contato">
+    <div class="container card" style="display:grid;gap:16px">
+      <h3 class="section-title">Contato & Encomendas</h3>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px">
+        <div>
+          <p><strong>Atendimento:</strong> seg–sáb • 9h–18h</p>
+          <p><strong>Retiradas e entregas:</strong> Goiânia e região</p>
+          <p class="mini">Fale com a gente no WhatsApp para consultar datas e formatos especiais.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+            <a class="btn" id="whatsBottom" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+            <a class="btn alt" href="mailto:contato@brilhodoce.com">contato@brilhodoce.com</a>
+          </div>
+        </div>
+        <div>
+          <iframe title="Mapa" style="border:0;width:100%;height:220px;border-radius:14px" loading="lazy" allowfullscreen
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.057!2d-49.2657!3d-16.6919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2zR29pw6FuaWE!5e0!3m2!1spt-BR!2sBR!4v1685654321"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="padding:28px 0">
+      <div class="footgrid">
+        <div>
+          <div class="brand" style="margin-bottom:8px">
+            <div class="logo"></div>
+            <h4 style="margin:0">Brilho Doce</h4>
+          </div>
+          <p class="mini">Bolos e doces artesanais feitos com carinho. Personalização total para seu evento.</p>
+        </div>
+        <div>
+          <strong>Links</strong>
+          <ul class="mini" style="list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px">
+            <li><a href="#menu">Cardápio</a></li>
+            <li><a href="#builder">Monte seu bolo</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Redes</strong>
+          <ul class="mini" style="list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px">
+            <li><a href="#" aria-label="Instagram">Instagram</a></li>
+            <li><a href="#" aria-label="Facebook">Facebook</a></li>
+            <li><a href="#" aria-label="TikTok">TikTok</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mini" style="opacity:.8;margin-top:16px">© <span id="year"></span> Brilho Doce • Todos os direitos reservados • Goiânia, GO</div>
+    </div>
+  </footer>
+
+  <script>
+    // ======= CONFIGURAÇÃO RÁPIDA =======
+    // 1) Substitua pelo seu número de WhatsApp no formato internacional:
+    const WHATS_NUMBER = '5562999999999'; // ex.: 5562998765432
+    // 2) Se quiser, personalize a mensagem padrão:
+    const WHATS_MSG = encodeURIComponent('Olá! Vim pelo site e quero fazer um pedido.');
+
+    // Links de WhatsApp
+    const whatsLink = `https://wa.me/${WHATS_NUMBER}?text=${WHATS_MSG}`;
+    document.querySelectorAll('#whatsTop,#whatsBottom').forEach(a=>{ a.href = whatsLink });
+
+    // Filtro do cardápio
+    const chips = document.querySelectorAll('.chip');
+    const items = document.querySelectorAll('#menuGrid .item');
+    chips.forEach(ch => ch.addEventListener('click', () => {
+      chips.forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active');
+      const f = ch.dataset.filter;
+      items.forEach(it => {
+        it.style.display = (f==='all' || it.dataset.cat===f) ? '' : 'none';
+      })
+    }));
+
+    // Builder de bolo
+    const tamanho = document.getElementById('tamanho');
+    const massa = document.getElementById('massa');
+    const recheio = document.getElementById('recheio');
+    const cobertura = document.getElementById('cobertura');
+    const topper = document.getElementById('topper');
+    const totalEl = document.getElementById('total');
+    const resumoEl = document.getElementById('resumo');
+
+    function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+
+    function calc(){
+      const base = parseFloat(tamanho.selectedOptions[0].dataset.preco);
+      const extras = [cobertura, topper].reduce((acc,el)=> el.checked? acc + parseFloat(el.dataset.extra):acc,0);
+      const total = base + extras;
+      totalEl.textContent = formatBRL(total);
+      const desc = `Bolo ${tamanho.options[tamanho.selectedIndex].text} • Massa: ${massa.value} • Recheio: ${recheio.value}${cobertura.checked? ' • Cobertura extra':''}${topper.checked? ' • Topper personalizado':''}`;
+      resumoEl.textContent = desc;
+      return {total,desc};
+    }
+    [tamanho,massa,recheio,cobertura,topper].forEach(el=> el.addEventListener('change', calc));
+    calc();
+
+    // Pedido no WhatsApp com resumo
+    document.getElementById('whatsPedido').addEventListener('click', ()=>{
+      const {total,desc} = calc();
+      const msg = encodeURIComponent(`Olá! Quero este pedido:\n${desc}\nTotal estimado: ${formatBRL(total)}`);
+      window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`,'_blank');
+    });
+
+    // Copiar resumo
+    document.getElementById('copiarResumo').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(resumoEl.textContent + `\nTotal: ${totalEl.textContent}`); alert('Resumo copiado!'); }catch(e){ alert('Não foi possível copiar.'); }
+    });
+
+    // Depoimentos slider
+    const slides = document.querySelector('.slides');
+    let idx = 0; setInterval(()=>{ idx=(idx+1)%3; slides.style.transform = `translateX(-${idx*100}%)`; }, 4200);
+
+    // Sprinkles decorativos
+    const sp = document.getElementById('sprinkles');
+    const colors = ['var(--rose)','var(--violet)','var(--mint)','var(--gold)'];
+    for(let i=0;i<60;i++){
+      const s=document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*100+'%';
+      s.style.setProperty('--r', (Math.random()*140-70)+'deg');
+      s.style.setProperty('--y', (Math.random()*10-5)+'px');
+      s.style.setProperty('--c', colors[i%colors.length]);
+      sp.appendChild(s);
+    }
+
+    // Ano no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
